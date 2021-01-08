@@ -35,3 +35,12 @@ var finalObserver = {
 console.log('just before subscribe');
 observable.subscribe(finalObserver);
 console.log('just after subscribe');
+
+// The async Scheduler operates with a setTimeout or setInterval, even if the given delay was zero.
+// As usual, in JavaScript, setTimeout(fn, 0) is known to run the function fn earliest on the next event loop iteration.
+// This explains why got value 1 is delivered to the finalObserver after just after subscribe happened.
+
+// The schedule() method of a Scheduler takes a delay argument, which refers to a quantity of time relative to the Scheduler's own internal clock.
+// A Scheduler's clock need not have any relation to the actual wall-clock time.
+// This is how temporal operators like delay operate not on actual time, but on time dictated by the Scheduler's clock.
+// This is specially useful in testing, where a virtual time Scheduler may be used to fake wall-clock time while in reality executing scheduled tasks synchronously.
